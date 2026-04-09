@@ -293,10 +293,37 @@ alert("Saved: "+name);
 }
   
 function loadJob(){
-let name=prompt("Enter property name to load:");
-if(!name)return;
 
-let data=localStorage.getItem("job_"+name);
+let search=prompt("Search job:");
+
+if(!search) return;
+
+let matches=[];
+
+for(let i=0;i<localStorage.length;i++){
+let key=localStorage.key(i);
+
+if(key.startsWith("job_")){
+let name=key.replace("job_","");
+
+if(name.toLowerCase().includes(search.toLowerCase())){
+matches.push(name);
+}
+}
+}
+
+if(matches.length===0){
+alert("No jobs found");
+return;
+}
+
+matches.sort().reverse();
+
+let choice=prompt("Matches:\n\n"+matches.join("\n")+"\n\nType exact job name to load:");
+
+if(!choice) return;
+
+let data=localStorage.getItem("job_"+choice);
 
 if(!data){
 alert("Job not found");
@@ -304,8 +331,9 @@ return;
 }
 
 loadJobData(JSON.parse(data));
-}
 
+}
+  
 function deleteJob(){
 let name=prompt("Enter property name to delete:");
 if(!name)return;
