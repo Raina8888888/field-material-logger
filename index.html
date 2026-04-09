@@ -295,7 +295,6 @@ alert("Saved: "+name);
 function loadJob(){
 
 let search=prompt("Search job:");
-
 if(!search) return;
 
 let matches=[];
@@ -319,16 +318,24 @@ return;
 
 matches.sort().reverse();
 
-let choice=prompt("Matches:\n\n"+matches.join("\n")+"\n\nType exact job name to load:");
+let list="Select job:\n\n";
+
+matches.forEach((job,i)=>{
+list+=(i+1)+". "+job+"\n";
+});
+
+let choice=prompt(list+"\nEnter number:");
 
 if(!choice) return;
 
-let data=localStorage.getItem("job_"+choice);
+let index=parseInt(choice)-1;
 
-if(!data){
-alert("Job not found");
+if(index<0 || index>=matches.length){
+alert("Invalid selection");
 return;
 }
+
+let data=localStorage.getItem("job_"+matches[index]);
 
 loadJobData(JSON.parse(data));
 
