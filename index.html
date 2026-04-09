@@ -46,7 +46,7 @@ gap:2px;
 .header,.row{
 display:grid;
 grid-template-columns:45px 1fr 65px 65px 60px;
-gap:2px;
+gap:0px;
 align-items:stretch;
 }
 
@@ -132,7 +132,7 @@ font-size:14px;
 <option>ANNUALS</option>
 </select>
 
-<button onclick="toggleContrast()">Contrast</button>
+
 </div>
 </div>
 
@@ -212,9 +212,7 @@ document.querySelectorAll("input,textarea,select").forEach(e=>e.value="");
 updateTotals();
 }
 
-function toggleContrast(){
-document.body.classList.toggle("dark");
-}
+
 
 </script>
 
