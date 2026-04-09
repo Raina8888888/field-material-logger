@@ -281,10 +281,26 @@ alert("Enter property name first");
 return;
 }
 
+/* check if property already contains a date */
+let dateMatch=base.match(/ - [A-Za-z]+ \d{2} \d{4}$/);
+
+let name;
+
+if(dateMatch){
+/* job already has a date → keep it */
+name=base;
+}else{
+
+/* first save → create date */
 let d=new Date();
 let date=d.toLocaleDateString("en-US",{month:"long",day:"2-digit",year:"numeric"}).replace(",","");
 
-let name=base+" - "+date;
+name=base+" - "+date;
+
+/* update the property field so the user sees the locked date */
+document.getElementById("property").value=name;
+
+}
 
 localStorage.setItem("job_"+name,JSON.stringify(getJobData()));
 
