@@ -273,15 +273,25 @@ updateTotals();
 }
 
 function saveJob(){
-let name=document.getElementById("property").value.trim();
-if(!name){
+
+let base=document.getElementById("property").value.trim();
+
+if(!base){
 alert("Enter property name first");
 return;
 }
-localStorage.setItem("job_"+name,JSON.stringify(getJobData()));
-alert("Job saved");
-}
 
+let d=new Date();
+let date=d.toLocaleDateString("en-US",{month:"long",day:"2-digit",year:"numeric"}).replace(",","");
+
+let name=base+" - "+date;
+
+localStorage.setItem("job_"+name,JSON.stringify(getJobData()));
+
+alert("Saved: "+name);
+
+}
+  
 function loadJob(){
 let name=prompt("Enter property name to load:");
 if(!name)return;
