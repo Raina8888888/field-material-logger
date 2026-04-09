@@ -295,7 +295,8 @@ name=base;
 let d=new Date();
 let date=d.toLocaleDateString("en-US",{month:"long",day:"2-digit",year:"numeric"}).replace(",","");
 
-name=base+" - "+date;
+let project=document.getElementById("project").value || "";
+name=base+" - "+date+(project ? " - "+project : "");
 
 /* update the property field so the user sees the locked date */
 document.getElementById("property").value=name;
