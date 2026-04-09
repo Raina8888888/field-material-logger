@@ -217,7 +217,75 @@ document.querySelectorAll("input,textarea,select").forEach(e=>e.value="");
 updateTotals();
 }
 
+function getJobData(){
+let rows=[];
+document.querySelectorAll(".row").forEach(r=>{
+rows.push({
+qty:r.querySelector(".qty").value,
+item:r.querySelector(".item").value,
+size:r.querySelector(".size").value,
+cost:r.querySelector(".cost").value
+});
+});
+return {
+property:document.getElementById("property").value,
+project:document.getElementById("project").value,
+rows:rows
+};
+}
 
+function loadJobData(data){
+document.getElementById("property").value=data.property||"";
+document.getElementById("project").value=data.project||"";
+
+document.querySelectorAll(".row").forEach((r,i)=>{
+if(data.rows[i]){
+r.querySelector(".qty").value=data.rows[i].qty;
+r.querySelector(".item").value=data.rows[i].item;
+r.querySelector(".size").value=data.rows[i].size;
+r.querySelector(".cost").value=data.rows[i].cost;
+}else{
+r.querySelector(".qty").value="";
+r.querySelector(".item").value="";
+r.querySelector(".size").value="";
+r.querySelector(".cost").value="";
+}
+});
+
+updateTotals();
+}
+
+function saveJob(){
+let name=document.getElementById("property").value.trim();
+if(!name){
+alert("Enter property name first");
+return;
+}
+localStorage.setItem("job_"+name,JSON.stringify(getJobData()));
+alert("Job saved");
+}
+
+function loadJob(){
+let name=prompt("Enter property name to load:");
+if(!name)return;
+
+let data=localStorage.getItem("job_"+name);
+
+if(!data){
+alert("Job not found");
+return;
+}
+
+loadJobData(JSON.parse(data));
+}
+
+function deleteJob(){
+let name=prompt("Enter property name to delete:");
+if(!name)return;
+
+localStorage.removeItem("job_"+name);
+alert("Job deleted");
+}
 
 </script>
 
