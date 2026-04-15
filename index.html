@@ -191,8 +191,9 @@ text-align:right;
 <div class="buttonRow">
 <button onclick="saveJob()">SAVE</button>
 <button onclick="loadJob()">LOAD</button>
-
 <button onclick="newJob()">NEW</button>
+<button onclick="backupJobs()">BKP</button>
+<button onclick="restoreJobs()">RSTR</button>
 </div>
 
 </div>
@@ -392,6 +393,65 @@ localStorage.removeItem("job_"+name);
 alert("Job deleted");
 }
 
+function backupJobs(){
+
+let backup={};
+
+for(let i=0;i<localStorage.length;i++){
+let key=localStorage.key(i);
+
+if(key.startsWith("job_")){
+backup[key]=localStorage.getItem(key);
+}
+}
+
+let dataStr=JSON.stringify(backup,null,2);
+
+let d=new Date();
+let date=d.toISOString().split("T")[0];
+
+let filename="FieldMaterialBackup-"+date+".json";
+
+let blob=new Blob([dataStr],{type:"application/json"});
+
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download=filename;
+a.click();
+
+}
+
+function restoreJobs(){
+
+let input=document.createElement("input");
+input.type="file";
+input.accept=".json";
+
+input.onchange=function(e){
+
+let file=e.target.files[0];
+let reader=new FileReader();
+
+reader.onload=function(){
+
+let data=JSON.parse(reader.result);
+
+for(let key in data){
+localStorage.setItem(key,data[key]);
+}
+
+alert("Backup restored successfully");
+
+};
+
+reader.readAsText(file);
+
+};
+
+input.click();
+
+}
+  
 </script>
 
 </body>
