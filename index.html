@@ -319,11 +319,21 @@ name=base;
 }else{
 
 /* first save → create date */
+let name;
+
+if(base.match(/\d{4}/)){
+name=base;
+}else{
+
 let d=new Date();
 let date=d.toLocaleDateString("en-US",{month:"long",day:"2-digit",year:"numeric"}).replace(",","");
 
 let project=document.getElementById("project").value || "";
 name=base+" - "+date+(project ? " - "+project : "");
+
+document.getElementById("property").value=name;
+
+}
 
 /* update the property field so the user sees the locked date */
 document.getElementById("property").value=name;
